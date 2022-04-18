@@ -1,4 +1,4 @@
-const cacheName = 'v2';
+const cacheName = 'v1';
 const cacheAssets = [
     'index.html',
     'style.css',
@@ -6,33 +6,37 @@ const cacheAssets = [
     'manifest.webmanifest',
 ];
 
-self.addEventListener('install', async (e) => {
+self.addEventListener('install', (e) => {
     // cache the assets
-    const cache = await caches.open(cacheName);
-    await cache.addAll(cacheAssets);
-    return self.skipWaiting();
+    e.waitUntil(
+        (async () => {
+            const cache = await caches.open(cacheName);
+            await cache.addAll(cacheAssets);
+        })()
+    );
 });
 
 self.addEventListener('activate', (e) => {
     console.log('SW activation successful');
 
-    self.clients.claim();
-
     // remove unwanted cache assets
     e.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cache) => {
-                    if (cache !== cacheName) {
-                        return caches.delete(cache);
-                    }
-                })
-            );
-        })
+        caches
+            .keys()
+            .then((cacheNames) => {
+                return Promise.all(
+                    cacheNames.map((cache) => {
+                        if (cache !== cacheName) {
+                            return caches.delete(cache);
+                        }
+                    })
+                );
+            })
+            .then(() => self.clients.claim())
     );
 });
 
-self.addEventListener('fetch', async (e) => {
+self.addEventListener('fetch', (e) => {
     e.respondWith(
         fetch(e.request).catch(() => {
             return caches.match(e.request);
