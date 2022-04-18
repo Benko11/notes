@@ -1,5 +1,6 @@
 const cacheName = 'v1';
 const cacheAssets = [
+    './',
     'index.html',
     'style.css',
     'script.js',
