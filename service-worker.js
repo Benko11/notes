@@ -38,8 +38,11 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
     e.respondWith(
-        fetch(e.request).catch(() => {
-            return caches.match(e.request);
-        })
+        caches
+            .open(cacheName)
+            .then((cache) => cache.match(e.request, { ignoreSearch: true }))
+            .then((response) => {
+                return response || fetch(e.request);
+            })
     );
 });
