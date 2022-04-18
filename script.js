@@ -83,3 +83,12 @@ initializeNotes();
 initializeCurrentPage();
 initializeFontSize();
 updateNoteContents();
+if ('serviceWorker' in navigator) {
+    console.log('supported');
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('service-worker.js')
+            .then((info) => console.log(info))
+            .catch((err) => console.log(err));
+    });
+}
