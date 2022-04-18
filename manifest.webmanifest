@@ -1,7 +1,7 @@
 {
     "short_name": "Notes",
     "name": "Notes",
-    "start_url": ".",
+    "start_url": "./index.html",
     "background_color": "#0a0a0f",
     "theme_color": "#0a0a0f",
     "orientation": "portrait-primary",
