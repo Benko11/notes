@@ -9,3 +9,5 @@ Application persists user notes in local storage, and its robustness is therefor
 I drew the icon in MS Paint, just to have something to work with, please, be kind.
 
 ![Notes app](app.png)
+
+**Live demo:** https://candid-mousse-5b640f.netlify.app/
